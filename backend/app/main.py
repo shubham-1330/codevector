@@ -106,5 +106,22 @@ async def health_check() -> dict:
     return {"status": "ok", "service": settings.APP_NAME}
 
 
+@app.post("/seed", tags=["seed"])
+async def seed_database(count: int = 500) -> dict:
+    """Clear existing products and insert realistic ones. Max 500."""
+    from seed.seed import _build_rows
+    from app.models.product import Product
+    from sqlalchemy import insert
+
+    count = min(count, 500)
+    async with engine.begin() as conn:
+        await conn.execute(text("TRUNCATE products RESTART IDENTITY"))
+        rows = _build_rows(count)
+        await conn.execute(insert(Product), rows)
+        result = await conn.execute(text("SELECT COUNT(*) FROM products"))
+        total = result.scalar_one()
+
+    return {"inserted": count, "total_in_db": total}
+
 
 app.include_router(products_router.router, prefix="/products", tags=["products"])
