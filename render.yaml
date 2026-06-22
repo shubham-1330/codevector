@@ -1,13 +1,12 @@
-services:
-  # PostgreSQL Database
-  - type: postgres
-    name: codevector-db
+databases:
+  - name: codevector-db
     plan: free
-    ipAllowList: []
     databaseName: codevector
     user: postgres
     region: oregon
+    ipAllowList: []
 
+services:
   # FastAPI Backend
   - type: web
     name: codevector-backend
