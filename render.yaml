@@ -29,16 +29,3 @@ services:
     autoDeploy: true
     healthCheckPath: /health
 
-  # Next.js Frontend
-  - type: web
-    name: codevector-frontend
-    plan: free
-    runtime: node
-    region: oregon
-    buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm run start
-    envVars:
-      - key: NEXT_PUBLIC_API_URL
-        value: https://codevector-backend.onrender.com
-    autoDeploy: true
-    healthCheckPath: /
