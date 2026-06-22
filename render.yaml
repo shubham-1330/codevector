@@ -1,10 +1,9 @@
 services:
   # PostgreSQL Database
-  - type: pserv
+  - type: postgres
     name: codevector-db
     plan: free
     ipAllowList: []
-    postgresVersion: 16
     databaseName: codevector
     user: postgres
     region: oregon
