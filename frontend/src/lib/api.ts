@@ -43,6 +43,6 @@ export async function fetchCategories(): Promise<string[]> {
   // The API doesn't have a /categories endpoint, so we infer from the
   // first page of products. For production, add a dedicated endpoint.
   const data = await fetchProducts({ limit: 100 });
-  const cats = [...new Set(data.products.map((p) => p.category))].sort();
+  const cats = Array.from(new Set(data.products.map((p) => p.category))).sort();
   return cats;
 }
