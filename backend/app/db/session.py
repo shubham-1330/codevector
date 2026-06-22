@@ -10,6 +10,10 @@ from app.core.config import settings
 
 logger = logging.getLogger("codevector.db")
 
+_connect_args: dict = {}
+if "localhost" not in settings.DATABASE_URL and "127.0.0.1" not in settings.DATABASE_URL:
+    _connect_args["ssl"] = "require"
+
 engine = create_async_engine(
     settings.DATABASE_URL,
     echo=settings.DEBUG,
@@ -17,6 +21,7 @@ engine = create_async_engine(
     max_overflow=20,
     pool_pre_ping=True,
     pool_recycle=3600,
+    connect_args=_connect_args,
 )
 
 AsyncSessionLocal: async_sessionmaker[AsyncSession] = async_sessionmaker(
