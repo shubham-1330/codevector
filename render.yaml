@@ -2,7 +2,6 @@ databases:
   - name: codevector-db
     plan: free
     databaseName: codevector
-    user: postgres
     region: oregon
     ipAllowList: []
 
